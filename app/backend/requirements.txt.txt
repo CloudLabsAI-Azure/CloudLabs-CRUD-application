@@ -1,0 +1,18 @@
+# add_numbers Function
+
+## Description
+A simple Python function that adds two numbers.
+
+## Parameters
+- `a` (int or float): The first number to add.
+- `b` (int or float): The second number to add.
+
+## Returns
+- The sum of `a` and `b`.
+
+## Example
+```python
+num1 = 5
+num2 = 10
+result = add_numbers(num1, num2)
+print("The sum is:", result)
