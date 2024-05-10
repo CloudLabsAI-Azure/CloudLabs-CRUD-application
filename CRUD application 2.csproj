@@ -127,6 +127,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="deploy.json" />
     <Content Include="deploy.parameters.json" />
+    <Content Include="README.md" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
