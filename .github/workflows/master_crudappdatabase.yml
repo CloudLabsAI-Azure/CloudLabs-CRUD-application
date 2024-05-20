@@ -54,4 +54,4 @@ jobs:
           app-name: 'CRUDAppDatabase'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1AF51DC105FF47CA8DCEABF158F9C5D4 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AD696FC12C3545ABAB6C0409D6A94798 }}
