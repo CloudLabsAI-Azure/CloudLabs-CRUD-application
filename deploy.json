@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "resources": [
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2021-02-01",
+            "name": "[parameters('appName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "serverFarmId": null
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers",
+            "apiVersion": "2021-02-01-preview",
+            "name": "[concat(parameters('appName'), '-sqlserver')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "administratorLogin": "[parameters('databaseUsername')]",
+                "administratorLoginPassword": "[parameters('databasePassword')]",
+                "version": "12.0"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/servers/databases",
+            "apiVersion": "2021-02-01-preview",
+            "name": "[concat(parameters('appName'), '-database')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', concat(parameters('appName'), '-sqlserver'))]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "edition": "Basic",
+                "maxSizeBytes": "1073741824",
+                "requestedServiceObjectiveName": "Basic"
+            }
+        }
+    ]
+}
