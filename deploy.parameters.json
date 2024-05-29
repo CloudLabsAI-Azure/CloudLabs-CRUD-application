@@ -3,13 +3,14 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "webAppName": {
-            "value": "ContactDatabaseWebApp"
+            "value": "mywebappcopilotsh"
         },
         "hostingPlanName": {
-            "value": "ContactDatabaseServicePlan"
+            "value": "ASP-GitHubCopilotChallenges-b250"
+            
         },
         "skuName": {
-            "value": "F1"
+            "value": "S1"
         }
     }
 }
