@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "webAppName": {
-            "value": "My_Copilot_training_APP"
+            "value": "MyCopilottrainingAPP"
         },
         "location": {
             "value": "East US"
