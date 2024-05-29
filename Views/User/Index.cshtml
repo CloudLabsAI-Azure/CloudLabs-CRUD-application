@@ -9,6 +9,15 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm("Index", "User", FormMethod.Get))
+{
+    <p>
+        @Html.TextBox("searchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
@@ -37,3 +46,15 @@
 }
 
 </table>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('form').submit(function () {
+                var searchString = $('#searchString').val();
+                window.location.href = '@Url.Action("Index", "User")?searchString=' + searchString;
+                return false;
+            });
+        });
+    </script>
+}
