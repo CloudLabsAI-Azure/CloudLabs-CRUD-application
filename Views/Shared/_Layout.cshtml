@@ -25,6 +25,10 @@
             </div>
         </div>
     </div>
+    <form action="/UserController/Search" method="get">
+        <input type="text" name="query" placeholder="Search..." />
+        <input type="submit" value="Search" onclick="location.reload();" />
+    </form>
     <div class="container body-content">
         @RenderBody()
         <hr />

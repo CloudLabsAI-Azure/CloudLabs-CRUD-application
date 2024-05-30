@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {},
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2021-02-01",
+      "name": "contact-database-app",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "serverFarmId": "[parameters('appServicePlan')]",
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "DATABASE_CONNECTION_STRING",
+              "value": "[parameters('databaseConnectionString')]"
+            }
+          ]
+        }
+      },
+      "dependsOn": []
+    }
+  ],
+  "outputs": {}
+}
