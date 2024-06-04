@@ -1,0 +1,62 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the app service to create."
+            }
+        },
+        "sqlServerName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the SQL server to create."
+            }
+        },
+        "sqlDatabaseName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the SQL database to create."
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2018-11-01",
+            "name": "[parameters('appName')]",
+            "location": "[resourceGroup().location]",
+            "kind": "app",
+            "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appName'))]"
+            }
+        },
+        {
+            "type": "Microsoft.Sql/managedInstances",
+            "apiVersion": "2018-06-01-preview",
+            "name": "[parameters('sqlServerName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "administratorLogin": "azureuser",
+                "administratorLoginPassword": "egqi95ARU*DE"
+            },
+            "resources": [
+                {
+                    "type": "databases",
+                    "apiVersion": "2018-06-01-preview",
+                    "name": "[parameters('sqlDatabaseName')]",
+                    "location": "[resourceGroup().location]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
+                    ],
+                    "properties": {
+                        "collation": "SQL_Latin1_General_CP1_CI_AS",
+                        "edition": "Basic",
+                        "maxSizeBytes": "1073741824"
+                    }
+                }
+            ]
+        }
+    ]
+}
