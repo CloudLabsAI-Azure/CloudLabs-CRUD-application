@@ -183,7 +183,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="deploy.json" />
     <Content Include="deploy.parameters.json" />
-    <Content Include=".github\workflows\main.yml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -213,6 +212,7 @@
     <Content Include="Views\User\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include=".github\workflows\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
