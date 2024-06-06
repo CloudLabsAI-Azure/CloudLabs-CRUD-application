@@ -95,5 +95,13 @@ namespace CRUD_application_2.Controllers
             userlist.Remove(user);
             return RedirectToAction("Index");
         }
+
+        //Search
+        [HttpPost]
+        public ActionResult Search(string name)
+        {
+            var users = userlist.Where(u => u.Name.Contains(name));
+            return View("Index", users);
+        }
     }
 }
