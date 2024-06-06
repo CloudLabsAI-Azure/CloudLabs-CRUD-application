@@ -1,0 +1,17 @@
+﻿@model IEnumerable<CRUD_application_2.Models.User>
+
+<h2>Search Results</h2>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <!-- Add more columns as needed -->
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Name</td>
+            <!-- Add more cells as needed -->
+        </tr>
+    }
+</table>
