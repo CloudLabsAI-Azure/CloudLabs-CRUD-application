@@ -7,22 +7,29 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@master
       
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+    - name: Setup MSBuild path
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Setup NuGet
+      run: NuGet/setup-nuget@v1.0.5
+
+    - name: Restore NuGet packages
+      run: nuget restore
+
+    - name: Build with MSBuild
+      run: msbuild /nologo /verbosity:m /t:build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\"
+
+    - name: Upload artifacts for deployment job
+      uses: actions/upload-artifact@v3
       with:
-        dotnet-version: 3.1
-
-    - name: Build with dotnet
-      run: dotnet build --configuration Release
-
-    - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        name: crud-app
+        path: '/published/**'
 
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
