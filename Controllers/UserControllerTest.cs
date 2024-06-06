@@ -31,7 +31,7 @@ namespace CRUD_application_2.Tests.Controllers
         public void Index_ReturnsCorrectView_WithAllUsers()
         {
             // Act
-            var result = _controller.Index() as ViewResult;
+            var result = _controller.Index(null) as ViewResult;
 
             // Assert
             Assert.NotNull(result);
