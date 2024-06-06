@@ -97,7 +97,7 @@ namespace CRUD_application_2.Controllers
         }
 
         //Search
-        [HttpPost]
+        [HttpGet]
         public ActionResult Search(string name)
         {
             var users = userlist.Where(u => u.Name.Contains(name));
