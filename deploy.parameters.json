@@ -2,20 +2,8 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "appServiceName": {
+    "sites_userApp124_name": {
       "value": "userApp124"
-    },
-    "location": {
-      "value": "West US"
-    },
-    "skuName": {
-      "value": "F1"
-    },
-    "skuTier": {
-      "value": "Free"
-    },
-    "skuSize": {
-      "value": "F1"
     }
   }
 }

@@ -2,47 +2,184 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "name": {
-      "type": "string"
+    "sites_userApp124_name": {
+      "defaultValue": "userApp124",
+      "type": "String"
     },
-    "location": {
-      "type": "string"
-    },
-    "skuName": {
-      "type": "string"
-    },
-    "skuTier": {
-      "type": "string"
-    },
-    "skuSize": {
-      "type": "string"
+    "serverfarms_ASP_GitHubCopilotChallenges_ad32_externalid": {
+      "defaultValue": "/subscriptions/8f59d1f1-6b84-417c-84f2-465227460185/resourceGroups/GitHub-Copilot-Challenges/providers/Microsoft.Web/serverfarms/ASP-GitHubCopilotChallenges-ad32",
+      "type": "String"
     }
   },
+  "variables": {},
   "resources": [
     {
       "type": "Microsoft.Web/sites",
-      "apiVersion": "2016-08-01",
-      "name": "[parameters('name')]",
-      "location": "[parameters('location')]",
+      "apiVersion": "2023-12-01",
+      "name": "[parameters('sites_userApp124_name')]",
+      "location": "East US",
+      "kind": "app",
       "properties": {
-        "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('name'))]"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('name'))]"
-      ]
+        "enabled": true,
+        "hostNameSslStates": [
+          {
+            "name": "userapp124.azurewebsites.net",
+            "sslState": "Disabled",
+            "hostType": "Standard"
+          },
+          {
+            "name": "userapp124.scm.azurewebsites.net",
+            "sslState": "Disabled",
+            "hostType": "Repository"
+          }
+        ],
+        "serverFarmId": "[parameters('serverfarms_ASP_GitHubCopilotChallenges_ad32_externalid')]",
+        "reserved": false,
+        "isXenon": false,
+        "hyperV": false,
+        "dnsConfiguration": {},
+        "vnetRouteAllEnabled": false,
+        "vnetImagePullEnabled": false,
+        "vnetContentShareEnabled": false,
+        "siteConfig": {
+          "numberOfWorkers": 1,
+          "acrUseManagedIdentityCreds": false,
+          "alwaysOn": false,
+          "http20Enabled": false,
+          "functionAppScaleLimit": 0,
+          "minimumElasticInstanceCount": 0
+        },
+        "scmSiteAlsoStopped": false,
+        "clientAffinityEnabled": true,
+        "clientCertEnabled": false,
+        "clientCertMode": "Required",
+        "hostNamesDisabled": false,
+        "vnetBackupRestoreEnabled": false,
+        "customDomainVerificationId": "E2FDF542FE1442DC6590B5C4AFD10531861FB18A8C572DBC088708718270A5F5",
+        "containerSize": 0,
+        "dailyMemoryTimeQuota": 0,
+        "httpsOnly": true,
+        "redundancyMode": "None",
+        "publicNetworkAccess": "Enabled",
+        "storageAccountRequired": false,
+        "keyVaultReferenceIdentity": "SystemAssigned"
+      }
     },
     {
-      "type": "Microsoft.Web/serverfarms",
-      "apiVersion": "2016-09-01",
-      "name": "[parameters('name')]",
-      "location": "[parameters('location')]",
+      "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+      "apiVersion": "2023-12-01",
+      "name": "[concat(parameters('sites_userApp124_name'), '/ftp')]",
+      "location": "East US",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_userApp124_name'))]"
+      ],
       "properties": {
-        "name": "[parameters('name')]",
-        "sku": {
-          "name": "[parameters('skuName')]",
-          "tier": "[parameters('skuTier')]",
-          "size": "[parameters('skuSize')]"
-        }
+        "allow": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+      "apiVersion": "2023-12-01",
+      "name": "[concat(parameters('sites_userApp124_name'), '/scm')]",
+      "location": "East US",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_userApp124_name'))]"
+      ],
+      "properties": {
+        "allow": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/config",
+      "apiVersion": "2023-12-01",
+      "name": "[concat(parameters('sites_userApp124_name'), '/web')]",
+      "location": "East US",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_userApp124_name'))]"
+      ],
+      "properties": {
+        "numberOfWorkers": 1,
+        "defaultDocuments": [
+          "Default.htm",
+          "Default.html",
+          "Default.asp",
+          "index.htm",
+          "index.html",
+          "iisstart.htm",
+          "default.aspx",
+          "index.php",
+          "hostingstart.html"
+        ],
+        "netFrameworkVersion": "v4.0",
+        "requestTracingEnabled": false,
+        "remoteDebuggingEnabled": false,
+        "httpLoggingEnabled": false,
+        "acrUseManagedIdentityCreds": false,
+        "logsDirectorySizeLimit": 35,
+        "detailedErrorLoggingEnabled": false,
+        "publishingUsername": "$userApp124",
+        "scmType": "GitHubAction",
+        "use32BitWorkerProcess": true,
+        "webSocketsEnabled": false,
+        "alwaysOn": false,
+        "managedPipelineMode": "Integrated",
+        "virtualApplications": [
+          {
+            "virtualPath": "/",
+            "physicalPath": "site\\wwwroot",
+            "preloadEnabled": false
+          }
+        ],
+        "loadBalancing": "LeastRequests",
+        "experiments": {
+          "rampUpRules": []
+        },
+        "autoHealEnabled": false,
+        "vnetRouteAllEnabled": false,
+        "vnetPrivatePortsCount": 0,
+        "publicNetworkAccess": "Enabled",
+        "localMySqlEnabled": false,
+        "ipSecurityRestrictions": [
+          {
+            "ipAddress": "Any",
+            "action": "Allow",
+            "priority": 2147483647,
+            "name": "Allow all",
+            "description": "Allow all access"
+          }
+        ],
+        "scmIpSecurityRestrictions": [
+          {
+            "ipAddress": "Any",
+            "action": "Allow",
+            "priority": 2147483647,
+            "name": "Allow all",
+            "description": "Allow all access"
+          }
+        ],
+        "scmIpSecurityRestrictionsUseMain": false,
+        "http20Enabled": false,
+        "minTlsVersion": "1.2",
+        "scmMinTlsVersion": "1.2",
+        "ftpsState": "FtpsOnly",
+        "preWarmedInstanceCount": 0,
+        "elasticWebAppScaleLimit": 0,
+        "functionsRuntimeScaleMonitoringEnabled": false,
+        "minimumElasticInstanceCount": 0,
+        "azureStorageAccounts": {}
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/hostNameBindings",
+      "apiVersion": "2023-12-01",
+      "name": "[concat(parameters('sites_userApp124_name'), '/', parameters('sites_userApp124_name'), '.azurewebsites.net')]",
+      "location": "East US",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_userApp124_name'))]"
+      ],
+      "properties": {
+        "siteName": "userApp124",
+        "hostNameType": "Verified"
       }
     }
   ]
