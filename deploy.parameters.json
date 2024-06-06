@@ -4,10 +4,10 @@
         "contentVersion": "1.0.0.0",
         "parameters": {
             "webAppName": {
-                "value": "<Your Web App Name>"
+                "value": "crud-app"
             },
             "hostingPlanName": {
-                "value": "<Your Hosting Plan Name>"
+                "value": "crud-app-plan"
             },
             "sku": {
                 "value": "F1"
