@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "skuName": {
+      "type": "string"
+    },
+    "skuTier": {
+      "type": "string"
+    },
+    "skuSize": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2016-08-01",
+      "name": "[parameters('name')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "serverFarmId": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('name'))]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('name'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2016-09-01",
+      "name": "[parameters('name')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "name": "[parameters('name')]",
+        "sku": {
+          "name": "[parameters('skuName')]",
+          "tier": "[parameters('skuTier')]",
+          "size": "[parameters('skuSize')]"
+        }
+      }
+    }
+  ]
+}
