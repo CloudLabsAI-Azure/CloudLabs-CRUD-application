@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "appServiceName": {
-      "value": "myAppService"
+      "value": "userApp124"
     },
     "location": {
       "value": "West US"
