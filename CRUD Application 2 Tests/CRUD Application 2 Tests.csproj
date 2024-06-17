@@ -21,4 +21,8 @@
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
+    <ItemGroup>
+	    <ProjectReference Include="..\CRUD Application 2\CRUD Application 2.csproj" />
+    </ItemGroup>	
+	
 </Project>
