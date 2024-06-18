@@ -139,6 +139,7 @@
     <Content Include="deploy.parameters.json" />
     <Content Include="deployyaml.yaml" />
     <Content Include=".github\workflows\workflow.yaml" />
+    <Content Include="readme.md" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
