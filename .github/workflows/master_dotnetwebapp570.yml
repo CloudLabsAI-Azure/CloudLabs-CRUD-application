@@ -6,7 +6,7 @@ name: Build and deploy ASP.Net Core app to Azure Web App - dotnetwebapp570
 on:
   push:
     branches:
-      - master
+      - master # Consider changing to 'main' if you use the default branch name
   workflow_dispatch:
 
 jobs:
@@ -19,14 +19,17 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '8.x'
+          dotnet-version: '8.x' # Ensure this version matches your project requirements
           include-prerelease: true
 
+      - name: Restore dependencies
+        run: dotnet restore # This step is crucial for restoring the dependencies before building
+
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration Release --no-restore # Added --no-restore to avoid redundant restore
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp --no-build # Added --no-build to avoid redundant build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -51,7 +54,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'dotnetwebapp570'
-          slot-name: 'Production'
-          package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FC0B89ED487345D78C43744649199CC8 }}
+          app-name: 'dotnetwebapp570' # Ensure this matches your Azure Web App name
+          slot-name: 'Production' # Slots are case-sensitive; ensure correct casing
+          package: ${{env.DOTNET_ROOT}}/myapp # Specify the path to the published app
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FC0B89ED487345D78C43744649199CC8 }} # Ensure this secret is correctly set in your repository settings
