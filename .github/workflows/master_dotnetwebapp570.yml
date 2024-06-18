@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy ASP.Net Core app to Azure Web App - dotnetwebapp570
 
 on:
@@ -22,14 +19,14 @@ jobs:
           dotnet-version: '8.x' # Ensure this version matches your project requirements
           include-prerelease: true
 
-      - name: Restore dependencies
-        run: dotnet restore # This step is crucial for restoring the dependencies before building
+      - name: Restore NuGet packages
+        run: nuget restore YourSolution.sln # Replace YourSolution.sln with the path to your solution file if necessary
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release --no-restore # Added --no-restore to avoid redundant restore
+        run: dotnet build --configuration Release --no-restore # No need to restore again, as NuGet packages are already restored
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp --no-build # Added --no-build to avoid redundant build
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp --no-build # Avoid rebuilding
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -55,6 +52,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'dotnetwebapp570' # Ensure this matches your Azure Web App name
-          slot-name: 'Production' # Slots are case-sensitive; ensure correct casing
-          package: ${{env.DOTNET_ROOT}}/myapp # Specify the path to the published app
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FC0B89ED487345D78C43744649199CC8 }} # Ensure this secret is correctly set in your repository settings
+          slot-name: 'Production' # Ensure correct casing
+          package: ${{env.DOTNET_ROOT}}/myapp
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FC0B89ED487345D78C43744649199CC8 }}
