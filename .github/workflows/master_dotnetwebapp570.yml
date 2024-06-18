@@ -20,7 +20,7 @@ jobs:
           include-prerelease: true
 
       - name: Restore NuGet packages
-        run: nuget restore YourSolution.sln # Replace CRUD Apllication 2.sln with the path to your solution file if necessary
+        run: nuget restore CRUD Apllication 2.sln # Replace CRUD Apllication 2.sln with the path to your solution file if necessary
 
       - name: Build with dotnet
         run: dotnet build --configuration Release --no-restore # No need to restore again, as NuGet packages are already restored
