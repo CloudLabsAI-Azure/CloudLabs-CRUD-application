@@ -138,6 +138,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="deploy.json" />
+    <Content Include="deploy.parameters.json" />
+    <None Include="Properties\PublishProfiles\CRUDapplication220240530103253 - Web Deploy.pubxml" />
+    <Content Include="ReadMe.md" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
