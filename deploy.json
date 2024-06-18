@@ -1,0 +1,110 @@
+  {
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "webAppName": {
+        "type": "string",
+        "metadata": {
+          "description": "ContactDatabaseApp",
+          "value": "ContactDbApp"
+        }
+      },
+      "hostingPlanName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the hosting plan.",
+          "value": "ContactDbAppServicePlan"
+        }
+      },
+      "sqlServerName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the SQL server.",
+          "value": "ContactDbSvr"
+        }
+      },
+      "sqlDatabaseName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the SQL database.",
+          "value": "ContactDb"
+        }
+      },
+      "sqlAdministratorLogin": {
+        "type": "string",
+        "metadata": {
+          "description": "The administrator login for the SQL server.",
+          "value": "useradmin"
+        }
+      },
+      "sqlAdministratorLoginPassword": {
+        "type": "securestring",
+        "metadata": {
+          "description": "The administrator login password for the SQL server.",
+          "value": "useradminpwd$123"
+        }
+      }
+    },
+    "variables": {
+      "webAppLocation": "[resourceGroup().location]"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Web/serverfarms",
+        "apiVersion": "2016-09-01",
+        "name": "[parameters('hostingPlanName')]",
+        "location": "[variables('webAppLocation')]",
+        "sku": {
+          "name": "F1",
+          "capacity": 1
+        },
+        "properties": {
+          "name": "[parameters('hostingPlanName')]"
+        }
+      },
+      {
+        "type": "Microsoft.Web/sites",
+        "apiVersion": "2016-08-01",
+        "name": "[parameters('webAppName')]",
+        "location": "[variables('webAppLocation')]",
+        "dependsOn": [
+          "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
+        ],
+        "properties": {
+          "serverFarmId": "[parameters('hostingPlanName')]"
+        }
+      },
+      {
+        "type": "Microsoft.Sql/servers",
+        "apiVersion": "2014-04-01-preview",
+        "name": "[parameters('sqlServerName')]",
+        "location": "[variables('webAppLocation')]",
+        "properties": {
+          "administratorLogin": "[parameters('sqlAdministratorLogin')]",
+          "administratorLoginPassword": "[parameters('sqlAdministratorLoginPassword')]",
+          "version": "12.0"
+        },
+        "resources": [
+          {
+            "type": "databases",
+            "apiVersion": "2014-04-01-preview",
+            "name": "[parameters('sqlDatabaseName')]",
+            "location": "[variables('webAppLocation')]",
+            "dependsOn": [
+              "[concat('Microsoft.Sql/servers/', parameters('sqlServerName'))]"
+            ],
+            "properties": {
+              "collation": "SQL_Latin1_General_CP1_CI_AS",
+              "edition": "Basic"
+            }
+          }
+        ]
+      }
+    ],
+    "outputs": {
+      "webAppUrl": {
+        "type": "string",
+        "value": "[concat('https://', parameters('webAppName'), '.azurewebsites.net')]"
+      }
+    }
+  }
