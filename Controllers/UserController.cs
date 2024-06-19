@@ -10,26 +10,45 @@ namespace CRUD_application_2.Controllers
         // GET: User
         public ActionResult Index()
         {
-            // Implement the Index method here
+            view(userlist);
         }
  
         // GET: User/Details/5
         public ActionResult Details(int id)
         {
-            // Implement the details method here
+            // This method is responsible for displaying the details of a user with the specified ID.
+            // It retrieves the user from the userlist based on the provided ID and passes it to the Details view.
+            var user = userlist.FirstOrDefault(u => u.Id == id);
+            if (user == null)
+            {
+            return HttpNotFound();
+            }
+            return View(user);
         }
  
         // GET: User/Create
+        // GET: User/Create
         public ActionResult Create()
         {
-            //Implement the Create method here
+            return View();
         }
  
         // POST: User/Create
         [HttpPost]
         public ActionResult Create(User user)
         {
-            // Implement the Create method (POST) here
+            // This method is responsible for handling the HTTP POST request to create a new user.
+            // It receives user input from the form submission and adds the new user to the userlist.
+            // If successful, it redirects to the Index action to display the updated list of users.
+            // If an error occurs during the process, it returns the Create view to display any validation errors.
+
+            if (ModelState.IsValid)
+            {
+                userlist.Add(user);
+                return RedirectToAction("Index");
+            }
+
+            return View(user);
         }
  
         // GET: User/Edit/5

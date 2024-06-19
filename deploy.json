@@ -1,0 +1,106 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the application."
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "The location where the resources will be deployed."
+            }
+        },
+        "databaseName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the database."
+            }
+        },
+        "databaseUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "The username for the database."
+            }
+        },
+        "databasePassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "The password for the database."
+            }
+        },
+        "appServicePlanName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the App Service Plan."
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2021-04-01",
+            "name": "deployApp",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": [
+                        {
+                            "type": "Microsoft.Web/sites",
+                            "apiVersion": "2021-02-01",
+                            "name": "[parameters('appName')]",
+                            "location": "[parameters('location')]",
+                            "properties": {
+                                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
+                            }
+                        },
+                        {
+                            "type": "Microsoft.Sql/servers/databases",
+                            "apiVersion": "2021-02-01-preview",
+                            "name": "[parameters('databaseName')]",
+                            "location": "[parameters('location')]",
+                            "properties": {
+                                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                                "edition": "Basic",
+                                "maxSizeBytes": "1073741824",
+                                "requestedServiceObjectiveName": "Basic",
+                                "sampleName": "AdventureWorksLT",
+                                "elasticPoolId": "[resourceId('Microsoft.Sql/servers/elasticPools', 'elasticPoolName')]"
+                            },
+                            "dependsOn": [
+                                "[resourceId('Microsoft.Sql/servers', 'sqlServerName')]"
+                            ]
+                        }
+                    ]
+                },
+                "parameters": {
+                    "appName": {
+                        "value": "[parameters('appName')]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "databaseName": {
+                        "value": "[parameters('databaseName')]"
+                    },
+                    "databaseUsername": {
+                        "value": "[parameters('databaseUsername')]"
+                    },
+                    "databasePassword": {
+                        "value": "[parameters('databasePassword')]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[parameters('appServicePlanName')]"
+                    }
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}
