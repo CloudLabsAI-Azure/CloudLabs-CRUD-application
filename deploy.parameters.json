@@ -4,10 +4,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "webAppName": {
-        "value": "YourWebAppName"
+        "value": "SubratKumar"
       },
       "appServicePlanName": {
-        "value": "YourAppServicePlanName"
+        "value": "Basic"
       },
       "location": {
         "value": "YourAzureRegion"
